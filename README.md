@@ -1,14 +1,14 @@
 # GymBroz-APP
 
-## {c:green}Ferramentas para rodar esta aplicação:{/c}
+## Ferramentas para rodar esta aplicação:
 * NodeJs - V 18.15.0
 * Expo
 * Yarn
 
-## {c:green}Como rodar o projeto{/c}
+## Como rodar o projeto
 Comando: yarn start
 
-{c:blue}Links úteis:{/c}
+Links úteis:
 * https://danieldcs.com/como-criar-um-aplicativo-com-react-native-e-expo/
 * https://reactnative.dev/docs/getting-started
 * https://www.youtube.com/playlist?list=PLqfQXYWB7zobw0ruLOoeAKCCc7_jQo-JN
