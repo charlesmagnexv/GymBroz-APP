@@ -4,16 +4,19 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import Routes from './src/routes';
+import { AuthProvider } from './src/context/auth';
 
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <View style={styles.container}>
+      <AuthProvider>
+        {/* <View style={styles.container}>
         <Text>Open up App.tsx to start working on your app!</Text>
         <StatusBar style="auto" />
       </View> */}
-      <Routes />
-    </NavigationContainer>
+        <Routes />
+      </AuthProvider>
+    </NavigationContainer >
   );
 }
 
