@@ -3,16 +3,15 @@ import * as auth from "../services/auth";
 import AsyncStorage from "@react-native-community/async-storage";
 import { ActivityIndicator, View } from "react-native";
 import api from "../services/api";
-interface User {
-    name: string;
-    email: string;
-}
+import { LoginPost } from "../services/auth";
+import { User } from "../model/User";
+
 
 interface AuthContextData {
     signed: boolean;
     user: User | null;
     loading: boolean;
-    signIn(): Promise<void>;
+    signIn({ email, password }: LoginPost): Promise<void>;
     signOut(): void;
 }
 
@@ -36,8 +35,8 @@ const AuthProvider = ({ children }: any) => {
 
     useEffect(() => {
         async function loadStorageData() {
-            const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
-            const storagedToken = await AsyncStorage.getItem('@RNAuth:token');
+            const storagedUser = await AsyncStorage.getItem('@GBAuth:user');
+            const storagedToken = await AsyncStorage.getItem('@GBAuth:token');
 
             if (storagedUser && storagedToken) {
                 setUser(JSON.parse(storagedUser));
@@ -50,21 +49,20 @@ const AuthProvider = ({ children }: any) => {
         loadStorageData();
     });
 
-    async function signIn() {
-        const response = await auth.signIn();
-        setUser(response.user);
+    async function signIn({ email, password }: LoginPost) {
+        const response = await auth.signIn({ email, password });
+        setUser(response.data.user);
 
-        api.defaults.headers.Authorization = `Baerer ${response.token}`;
+        api.defaults.headers.Authorization = `Baerer ${response.data.acessToken}`;
 
-        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
-        await AsyncStorage.setItem('@RNAuth:token', response.token);
+        await AsyncStorage.setItem('@GBAuth:user', JSON.stringify(response.data.user));
+        await AsyncStorage.setItem('@GBAuth:token', response.data.acessToken);
     }
 
     async function signOut() {
         await AsyncStorage.clear();
         setUser(null);
     }
-
 
     // Poderia ser assim também: value={{signed: Boolean(user), user: {}, signIn}}
     return (

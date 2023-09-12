@@ -1,21 +1,22 @@
-interface Response {
-    token: string;
-    user: {
-      name: string,
-      email: string,
-    };
-  }
+import { AxiosResponse } from "axios"
+import api from "./api"
+import { User } from "../model/User"
 
-  export function signIn(): Promise<Response> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          token: "jk12h3j21h3jk212h3jk12h3jkh12j3kh12k123hh21g3f12f3",
-          user: {
-            name: "Thiago",
-            email: "thiagomarinho@rockeseat.com.br",
-          },
-        });
-      }, 2000);
-    });
-  }
+export interface LoginDTO {
+  acessToken: string
+  refreshToken: string
+  user: User
+}
+
+export interface LoginPost {
+  email: string;
+  password: string;
+}
+
+export const signIn = async ({ email, password }: LoginPost): Promise<AxiosResponse<LoginDTO>> => {
+  const response = await api.post(`/auth/login`, {
+    email,
+    password,
+  })
+  return response;
+}

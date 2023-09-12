@@ -5,18 +5,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import Routes from './src/routes';
 import { AuthProvider } from './src/context/auth';
+import { NativeBaseProvider } from 'native-base';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AuthProvider>
-        {/* <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="auto" />
-      </View> */}
-        <Routes />
-      </AuthProvider>
-    </NavigationContainer >
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </NavigationContainer >
+    </NativeBaseProvider>
   );
 }
 
