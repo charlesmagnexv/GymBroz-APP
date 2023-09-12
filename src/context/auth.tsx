@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as auth from "../services/auth";
 import AsyncStorage from "@react-native-community/async-storage";
-import { ActivityIndicator, View } from "react-native";
 import api from "../services/api";
 import { LoginPost } from "../services/auth";
 import { User } from "../model/User";

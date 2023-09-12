@@ -1,11 +1,11 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import Routes from './src/routes';
 import { AuthProvider } from './src/context/auth';
 import { NativeBaseProvider } from 'native-base';
+import theme from './src/theme/theme';
 
 export default function App() {
   return (

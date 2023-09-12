@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { useAuth } from "../../context/auth";
 import {
     VStack,
@@ -9,6 +9,14 @@ import {
     Center,
     Spinner
 } from 'native-base';
+import { useForm, Controller } from 'react-hook-form';
+
+type FormData = {
+    email: string;
+    password: string;
+};
+
+const REGEX_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
 const styles = StyleSheet.create({
     container: {
@@ -18,63 +26,65 @@ const styles = StyleSheet.create({
 });
 
 const SignIn: React.FC = () => {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [errors, setErrors] = useState({});
-    const { signIn, loading } = useAuth();
+    const { signIn } = useAuth();
 
-    function handleSign() {
-        validate() ? signIn({
-            email,
-            password
-        }) : console.log(errors)
-    }
+    const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-    const validate = () => {
-        if (email === undefined) {
-            setErrors({
-                ...errors,
-                name: 'Campo e-mail é obrigatório'
-            });
-            return false;
-        } else if (password === undefined) {
-            setErrors({
-                ...errors,
-                name: 'Campo senha é obrigatório'
-            });
-            return false;
-        }
-        return true;
+    const onSubmit = (data: FormData) => {
+        signIn({
+            email: data.email,
+            password: data.password
+        })
     };
 
     return (
         <Center flex={1}>
-            <Text>{`Teste: ${loading}`}</Text>
             <VStack width="100%" mx="3" maxW="300px">
                 <FormControl isRequired isInvalid={'email' in errors}>
-                    <FormControl.Label _text={{
-                        bold: true
-                    }}>
-                        Email
-                    </FormControl.Label>
-                    <Input placeholder="E-mail" onChangeText={value => setEmail(value)} />
-                    {'email' in errors ? <FormControl.ErrorMessage>Error</FormControl.ErrorMessage> : <FormControl.HelperText>
-                        Campo e-mail é obrigatório
-                    </FormControl.HelperText>}
+                    <FormControl.Label>E-mail</FormControl.Label>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                onBlur={onBlur}
+                                placeholder="E-mail"
+                                onChangeText={(val) => onChange(val)}
+                                value={value}
+                            />
+                        )}
+                        name="email"
+                        rules={{
+                            required: 'Campo obrigatório',
+                            pattern: REGEX_EMAIL
+                        }}
+                        defaultValue=""
+                    />
+                    <FormControl.ErrorMessage>
+                        {errors.email?.message}
+                    </FormControl.ErrorMessage>
                 </FormControl>
-                <FormControl isRequired isInvalid={'password' in errors}>
-                    <FormControl.Label _text={{
-                        bold: true
-                    }}>
-                        Senha
-                    </FormControl.Label>
-                    <Input placeholder="Senha" type="password" onChangeText={value => setPassword(value)} />
-                    {'password' in errors ? <FormControl.ErrorMessage>Error</FormControl.ErrorMessage> : <FormControl.HelperText>
-                        Campo senha é obrigatório
-                    </FormControl.HelperText>}
+                <FormControl isInvalid={'password' in errors}>
+                    <FormControl.Label>Password</FormControl.Label>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                onBlur={onBlur}
+                                placeholder="Password"
+                                onChangeText={(val) => onChange(val)}
+                                value={value}
+                            />
+                        )}
+                        name="password"
+                        rules={{ required: 'Campo obrigatório', }}
+                        defaultValue=""
+                    />
+                    <FormControl.ErrorMessage>
+                        {errors.password?.message}
+                    </FormControl.ErrorMessage>
                 </FormControl>
-                <Button onPress={() => { handleSign() }} mt="5" colorScheme="cyan">
-                    {loading ? <Spinner color="cyan.500" /> : 'Entrar'}
+                <Button onPress={handleSubmit(onSubmit)} colorScheme="pink">
+                    Entrar
                 </Button>
             </VStack>
         </Center>
