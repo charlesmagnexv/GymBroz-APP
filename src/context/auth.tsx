@@ -63,7 +63,7 @@ const AuthProvider = ({ children }: any) => {
         setUser(null);
     }
 
-    // Poderia ser assim também: value={{signed: Boolean(user), user: {}, signIn}}
+    // Poderia também ser assim: value={{signed: Boolean(user), user: {}, signIn}}
     return (
         <AuthContext.Provider value={{ signed: !!user, user, loading, signIn, signOut }}>
             {children}

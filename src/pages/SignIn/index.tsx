@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { useAuth } from "../../context/auth";
 import {
@@ -7,7 +7,8 @@ import {
     FormControl,
     Input,
     Center,
-    Spinner
+    Spinner,
+    useTheme
 } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -26,21 +27,28 @@ const styles = StyleSheet.create({
 });
 
 const SignIn: React.FC = () => {
-    const { signIn } = useAuth();
+    const [loading, setLoading] = useState<Boolean>(false)
 
+    const { colors } = useTheme()
+    const { signIn } = useAuth();
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
     const onSubmit = (data: FormData) => {
+        setLoading(true)
         signIn({
             email: data.email,
             password: data.password
+        }).then(res => {
+            setLoading(false)
+        }).catch(err => {
+            setLoading(false)
         })
     };
 
     return (
         <Center flex={1}>
             <VStack width="100%" mx="3" maxW="300px">
-                <FormControl isRequired isInvalid={'email' in errors}>
+                <FormControl isInvalid={'email' in errors}>
                     <FormControl.Label>E-mail</FormControl.Label>
                     <Controller
                         control={control}
@@ -64,13 +72,14 @@ const SignIn: React.FC = () => {
                     </FormControl.ErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={'password' in errors}>
-                    <FormControl.Label>Password</FormControl.Label>
+                    <FormControl.Label>Senha</FormControl.Label>
                     <Controller
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
                                 onBlur={onBlur}
                                 placeholder="Password"
+                                type="password"
                                 onChangeText={(val) => onChange(val)}
                                 value={value}
                             />
@@ -83,8 +92,8 @@ const SignIn: React.FC = () => {
                         {errors.password?.message}
                     </FormControl.ErrorMessage>
                 </FormControl>
-                <Button onPress={handleSubmit(onSubmit)} colorScheme="pink">
-                    Entrar
+                <Button onPress={handleSubmit(onSubmit)} colorScheme="tertiary" mt={5}>
+                    {loading ? <Spinner /> : `Entrar`}
                 </Button>
             </VStack>
         </Center>
