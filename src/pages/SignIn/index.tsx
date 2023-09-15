@@ -8,9 +8,12 @@ import {
     Input,
     Center,
     Spinner,
-    useTheme
+    View,
+    Text,
+    WarningTwoIcon
 } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
+import gymbrozTheme from "../../theme/gymbrozTheme";
 
 type FormData = {
     email: string;
@@ -20,16 +23,19 @@ type FormData = {
 const REGEX_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    spinnerStyle: {
+        width: 300,
+        height: 40,
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: gymbrozTheme.palette.muted[300],
+        borderRadius: 5,
     },
 });
 
 const SignIn: React.FC = () => {
-    const [loading, setLoading] = useState<Boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const { colors } = useTheme()
     const { signIn } = useAuth();
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
@@ -42,6 +48,7 @@ const SignIn: React.FC = () => {
             setLoading(false)
         }).catch(err => {
             setLoading(false)
+            // err.response.data.message
         })
     };
 
@@ -66,7 +73,7 @@ const SignIn: React.FC = () => {
                         name="email"
                         rules={{
                             required: 'Campo obrigatório',
-                            pattern: REGEX_EMAIL
+                            pattern: { value: REGEX_EMAIL, message: 'E-mail inválido' }
                         }}
                         defaultValue=""
                     />
@@ -98,8 +105,16 @@ const SignIn: React.FC = () => {
                         {errors.password?.message}
                     </FormControl.ErrorMessage>
                 </FormControl>
-                {loading ? <Spinner />
-                    : <Button onPress={handleSubmit(onSubmit)} colorScheme="tertiary" mt={5}>
+                {loading ?
+                    <View style={styles.spinnerStyle} mt={5} >
+                        <Spinner color='white' />
+                    </View> :
+                    <Button
+                        onPress={handleSubmit(onSubmit)}
+                        bg={gymbrozTheme.palette.tertiary[500]}
+                        _pressed={{ bg: gymbrozTheme.palette.tertiary[600] }}
+                        mt={5}
+                    >
                         Entrar
                     </Button>}
             </VStack>
