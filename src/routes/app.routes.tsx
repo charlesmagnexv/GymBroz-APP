@@ -1,13 +1,14 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import Dashboard from '../pages/Dashboard';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Home from '../pages/Home';
 
-const AppStack = createStackNavigator()
+const Tab = createBottomTabNavigator();
 
 const AppRoutes: React.FC = () => (
-    <AppStack.Navigator>
-        <AppStack.Screen name='Dashboard' component={Dashboard} />
-    </AppStack.Navigator>
+    <Tab.Navigator>
+        <Tab.Screen name="Home" component={Home} />
+        {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+    </Tab.Navigator>
 )
 
 export default AppRoutes

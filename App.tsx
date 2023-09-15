@@ -5,7 +5,6 @@ import React from 'react';
 import Routes from './src/routes';
 import { AuthProvider } from './src/context/auth';
 import { NativeBaseProvider } from 'native-base';
-import theme from './src/theme/theme';
 
 export default function App() {
   return (

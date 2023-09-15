@@ -58,6 +58,9 @@ const SignIn: React.FC = () => {
                                 placeholder="E-mail"
                                 onChangeText={(val) => onChange(val)}
                                 value={value}
+                                _focus={{
+                                    bg: 'lightBlue.50'
+                                }}
                             />
                         )}
                         name="email"
@@ -82,6 +85,9 @@ const SignIn: React.FC = () => {
                                 type="password"
                                 onChangeText={(val) => onChange(val)}
                                 value={value}
+                                _focus={{
+                                    bg: 'lightBlue.50'
+                                }}
                             />
                         )}
                         name="password"
@@ -92,9 +98,10 @@ const SignIn: React.FC = () => {
                         {errors.password?.message}
                     </FormControl.ErrorMessage>
                 </FormControl>
-                <Button onPress={handleSubmit(onSubmit)} colorScheme="tertiary" mt={5}>
-                    {loading ? <Spinner /> : `Entrar`}
-                </Button>
+                {loading ? <Spinner />
+                    : <Button onPress={handleSubmit(onSubmit)} colorScheme="tertiary" mt={5}>
+                        Entrar
+                    </Button>}
             </VStack>
         </Center>
     )
