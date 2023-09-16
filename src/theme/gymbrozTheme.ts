@@ -84,6 +84,11 @@ const gymbrozTheme = {
             400: '#4ade80',
             500: '#22c55e',
             600: '#16a34a'
+        },
+        light: {
+            50: '#fafaf9',
+            100: '#f5f5f4',
+            200: '#e7e5e4'
         }
     }
 }
