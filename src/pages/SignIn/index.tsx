@@ -56,7 +56,7 @@ const SignIn: React.FC = () => {
         <Center flex={1}>
             <VStack width="100%" mx="3" maxW="300px">
                 <FormControl isInvalid={'email' in errors}>
-                    <FormControl.Label>E-mail</FormControl.Label>
+                    <FormControl.Label mt={2}>E-mail</FormControl.Label>
                     <Controller
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
@@ -82,7 +82,7 @@ const SignIn: React.FC = () => {
                     </FormControl.ErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={'password' in errors}>
-                    <FormControl.Label>Senha</FormControl.Label>
+                    <FormControl.Label mt={2}>Senha</FormControl.Label>
                     <Controller
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
@@ -106,14 +106,14 @@ const SignIn: React.FC = () => {
                     </FormControl.ErrorMessage>
                 </FormControl>
                 {loading ?
-                    <View style={styles.spinnerStyle} mt={5} >
+                    <View style={styles.spinnerStyle} mt={8} >
                         <Spinner color='white' />
                     </View> :
                     <Button
                         onPress={handleSubmit(onSubmit)}
                         bg={gymbrozTheme.palette.tertiary[500]}
                         _pressed={{ bg: gymbrozTheme.palette.tertiary[600] }}
-                        mt={5}
+                        mt={8}
                     >
                         Entrar
                     </Button>}
