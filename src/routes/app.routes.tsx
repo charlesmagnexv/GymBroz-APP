@@ -14,9 +14,10 @@ const AppRoutes: React.FC = () => (
         screenOptions={{
             tabBarStyle: { backgroundColor: `${gymbrozTheme.palette.primary[800]}` },
             tabBarLabelStyle: {
-                // color: `${gymbrozTheme.palette.tertiary[500]}`, 
                 fontSize: 12
-            }
+            },
+            tabBarActiveTintColor: `${gymbrozTheme.palette.light[50]}`,
+            tabBarInactiveTintColor: `${gymbrozTheme.palette.muted[400]}`
         }}
     >
         <Tab.Screen name="Início" component={Home}
@@ -24,7 +25,7 @@ const AppRoutes: React.FC = () => (
                 tabBarIcon: ({ color, size, focused }) => (
                     <Icon
                         name="home"
-                        color={focused ? gymbrozTheme.palette.tertiary[500] : gymbrozTheme.palette.light[50]}
+                        color={color}
                         size={25}
                     />
                 ),
@@ -35,7 +36,7 @@ const AppRoutes: React.FC = () => (
                 tabBarIcon: ({ color, size, focused }) => (
                     <Icon
                         name="list-ul"
-                        color={focused ? gymbrozTheme.palette.tertiary[500] : gymbrozTheme.palette.light[50]}
+                        color={color}
                         size={25}
                     />
                 ),
@@ -46,7 +47,7 @@ const AppRoutes: React.FC = () => (
                 tabBarIcon: ({ color, size, focused }) => (
                     <Icon
                         name="user-friends"
-                        color={focused ? gymbrozTheme.palette.tertiary[500] : gymbrozTheme.palette.light[50]}
+                        color={color}
                         size={25}
                     />
                 ),
@@ -57,7 +58,7 @@ const AppRoutes: React.FC = () => (
                 tabBarIcon: ({ color, size, focused }) => (
                     <Icon
                         name="cog"
-                        color={focused ? gymbrozTheme.palette.tertiary[500] : gymbrozTheme.palette.light[50]}
+                        color={color}
                         size={25}
                     />
                 ),
