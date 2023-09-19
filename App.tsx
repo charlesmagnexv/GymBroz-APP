@@ -5,15 +5,18 @@ import React from 'react';
 import Routes from './src/routes';
 import { AuthProvider } from './src/context/auth';
 import { NativeBaseProvider } from 'native-base';
+import { FeedbackProvider } from './src/context/useFeedback';
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
-      </NavigationContainer >
+      <FeedbackProvider>
+        <NavigationContainer>
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
+        </NavigationContainer >
+      </FeedbackProvider>
     </NativeBaseProvider>
   );
 }

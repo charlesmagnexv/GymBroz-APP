@@ -9,11 +9,10 @@ import {
     Center,
     Spinner,
     View,
-    Text,
-    WarningTwoIcon
 } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
 import gymbrozTheme from "../../theme/gymbrozTheme";
+import { useFeedback } from "../../context/useFeedback";
 
 type FormData = {
     email: string;
@@ -38,6 +37,7 @@ const SignIn: React.FC = () => {
 
     const { signIn } = useAuth();
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { addFeedback } = useFeedback()
 
     const onSubmit = (data: FormData) => {
         setLoading(true)
@@ -48,7 +48,11 @@ const SignIn: React.FC = () => {
             setLoading(false)
         }).catch(err => {
             setLoading(false)
-            // err.response.data.message
+            addFeedback({
+                title:'Erro no login',
+                typeMessage: 'error',
+                description: err.response.data.message
+            })
         })
     };
 

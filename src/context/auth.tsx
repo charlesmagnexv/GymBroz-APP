@@ -51,6 +51,19 @@ const AuthProvider = ({ children }: any) => {
         loadStorageData();
     });
 
+    // A cada requisição verifica se o token é inválido. Executa método de refresh do Token
+    useEffect(() => {
+        axios.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                if (error.response && error.response.status === 401) {
+                    await checkAndRenewToken()
+                    return
+                }
+                return Promise.reject(error)
+            }
+        )
+    })
 
     // Recebe email e senha. Seta os tokens e passa accessToken como padrão nas requisições
     async function signIn({ email, password }: LoginPost) {
@@ -69,20 +82,6 @@ const AuthProvider = ({ children }: any) => {
         await AsyncStorage.clear();
         setUser(null);
     }
-
-    // A cada requisição verifica se o token é inválido. Executa método de refresh do Token
-    useEffect(() => {
-        axios.interceptors.response.use(
-            (response) => response,
-            async (error) => {
-                if (error.response && error.response.status === 401) {
-                    await checkAndRenewToken()
-                    return
-                }
-                return Promise.reject(error)
-            }
-        )
-    })
 
     // Utiliza o refresh token para obter novo Token de acesso
     async function checkAndRenewToken() {
