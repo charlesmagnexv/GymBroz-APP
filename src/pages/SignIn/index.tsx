@@ -49,7 +49,7 @@ const SignIn: React.FC = () => {
         }).catch(err => {
             setLoading(false)
             addFeedback({
-                title:'Erro no login',
+                title: 'Erro no login',
                 typeMessage: 'error',
                 description: err.response.data.message
             })
@@ -115,8 +115,8 @@ const SignIn: React.FC = () => {
                     </View> :
                     <Button
                         onPress={handleSubmit(onSubmit)}
-                        bg={gymbrozTheme.palette.tertiary[500]}
-                        _pressed={{ bg: gymbrozTheme.palette.tertiary[600] }}
+                        bg={gymbrozTheme.palette.secondary.main}
+                        _pressed={{ bg: gymbrozTheme.palette.secondary.dark }}
                         mt={8}
                     >
                         Entrar
