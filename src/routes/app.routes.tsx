@@ -12,6 +12,7 @@ const Tab = createBottomTabNavigator();
 const AppRoutes: React.FC = () => (
     <Tab.Navigator
         screenOptions={{
+            headerShown: false,
             tabBarStyle: { backgroundColor: `${gymbrozTheme.palette.primary.main}` },
             tabBarLabelStyle: {
                 fontSize: 12

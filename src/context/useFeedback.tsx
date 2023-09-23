@@ -4,7 +4,7 @@ import AlertFedback from "../components/AlertFeedback";
 export interface AlertContentFeed {
     title?: string;
     description?: string;
-    typeMessage?: 'error' | 'success';
+    typeMessage?: 'success' | 'error' | 'info' | 'warning';
     okButtonAction?: () => void
 }
 

@@ -9,10 +9,13 @@ import {
     Center,
     Spinner,
     View,
+    Image,
+    Text
 } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
 import gymbrozTheme from "../../theme/gymbrozTheme";
 import { useFeedback } from "../../context/useFeedback";
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 type FormData = {
     email: string;
@@ -22,6 +25,12 @@ type FormData = {
 const REGEX_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
 const styles = StyleSheet.create({
+    title: {
+        color: gymbrozTheme.palette.primary.main,
+    },
+    icon: {
+        marginRight: 10,
+    },
     spinnerStyle: {
         width: 300,
         height: 40,
@@ -34,10 +43,15 @@ const styles = StyleSheet.create({
 
 const SignIn: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState(false);
 
     const { signIn } = useAuth();
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
     const { addFeedback } = useFeedback()
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     const onSubmit = (data: FormData) => {
         setLoading(true)
@@ -57,7 +71,9 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <Center flex={1}>
+        <Center flex={1} justifyContent='flex-start' paddingTop={10}>
+            <Text bold fontSize="2xl" style={styles.title}>GymBroz</Text>
+            <Image source={require('../../../assets/img/img-gymbroz.png')} size={'xl'} alt={"Homem forte"} />
             <VStack width="100%" mx="3" maxW="300px">
                 <FormControl isInvalid={'email' in errors}>
                     <FormControl.Label mt={2}>E-mail</FormControl.Label>
@@ -72,6 +88,7 @@ const SignIn: React.FC = () => {
                                 _focus={{
                                     bg: 'lightBlue.50'
                                 }}
+                                autoCapitalize='none'
                             />
                         )}
                         name="email"
@@ -92,6 +109,7 @@ const SignIn: React.FC = () => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
                                 onBlur={onBlur}
+                                secureTextEntry={!showPassword}
                                 placeholder="Password"
                                 type="password"
                                 onChangeText={(val) => onChange(val)}
@@ -99,29 +117,59 @@ const SignIn: React.FC = () => {
                                 _focus={{
                                     bg: 'lightBlue.50'
                                 }}
+                                autoCapitalize='none'
+                                InputRightElement={<MaterialCommunityIcons
+                                    name={showPassword ? 'eye-off' : 'eye'}
+                                    size={28}
+                                    color="#aaa"
+                                    style={styles.icon}
+                                    onPress={toggleShowPassword} />}
                             />
                         )}
                         name="password"
                         rules={{ required: 'Campo obrigatório', }}
                         defaultValue=""
                     />
+
                     <FormControl.ErrorMessage>
                         {errors.password?.message}
                     </FormControl.ErrorMessage>
                 </FormControl>
                 {loading ?
-                    <View style={styles.spinnerStyle} mt={8} >
+                    <View style={styles.spinnerStyle} mt={6} >
                         <Spinner color='white' />
                     </View> :
                     <Button
                         onPress={handleSubmit(onSubmit)}
                         bg={gymbrozTheme.palette.secondary.main}
                         _pressed={{ bg: gymbrozTheme.palette.secondary.dark }}
-                        mt={8}
+                        mt={6}
                     >
                         Entrar
                     </Button>}
             </VStack>
+            <Text
+                color={gymbrozTheme.palette.primary.main}
+                mt={10}
+                underline
+                fontSize="md"
+            >
+                Recuperar Acesso
+            </Text>
+            <Text
+                color={gymbrozTheme.palette.primary.main}
+                mt={2}
+                fontSize="md"
+            >
+                Não tem uma conta?
+                <Text
+                    color={gymbrozTheme.palette.primary.main}
+                    underline
+                    fontSize="md"
+                >
+                    Cadastre-se
+                </Text>
+            </Text>
         </Center>
     )
 };
