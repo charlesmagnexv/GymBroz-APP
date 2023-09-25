@@ -71,7 +71,7 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <Center flex={1} justifyContent='flex-start' paddingTop={10}>
+        <Center flex={1} justifyContent='flex-start' paddingTop={12}>
             <Text bold fontSize="2xl" style={styles.title}>GymBroz</Text>
             <Image source={require('../../../assets/img/img-gymbroz.png')} size={'xl'} alt={"Homem forte"} />
             <VStack width="100%" mx="3" maxW="300px">
