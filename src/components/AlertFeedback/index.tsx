@@ -7,7 +7,8 @@ import {
     VStack,
     Text,
     Slide,
-    useToast
+    useToast,
+    View,
 } from 'native-base'
 import gymbrozTheme from '../../theme/gymbrozTheme';
 import React, { useEffect, useState } from 'react'
@@ -60,7 +61,7 @@ const AlertFedback: React.FC<AlertFeedback> = (contentProps) => {
     };
 
     return (
-        <Slide in={show} placement='left' top={20} width={windowWidth} display='flex' alignItems='center'>
+        <View width={windowWidth} display='flex' alignItems='center'>
             <Alert w="90%" status={content.typeMessage}
                 style={{
                     elevation: 3,
@@ -92,7 +93,7 @@ const AlertFedback: React.FC<AlertFeedback> = (contentProps) => {
                     </Box>
                 </VStack>
             </Alert>
-        </Slide>
+        </View>
     )
 }
 
