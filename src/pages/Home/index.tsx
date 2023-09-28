@@ -10,16 +10,10 @@ const styles = StyleSheet.create({
   },
 });
 const Home: React.FC = () => {
-
-  const { user, signOut } = useAuth();
-
-  function handleSignOut() {
-    signOut();
-  }
+  
   return (
     <View style={styles.container}>
-      <Text>{user?.firstName}</Text>
-      <Button title="Sign Out" onPress={handleSignOut} />
+      <Text>Início</Text>
     </View>
   )
 }

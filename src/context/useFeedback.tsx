@@ -6,7 +6,6 @@ export interface AlertContentFeed {
     title?: string;
     description?: string;
     typeMessage?: 'success' | 'error' | 'info' | 'warning';
-    okButtonAction?: () => void
 }
 
 interface AlertContendDTO {
@@ -32,7 +31,7 @@ export const FeedbackProvider = ({ children }: any) => {
                 render: () => {
                     return <AlertFedback content={content} />
                 },
-                placement: "top"
+                placement: "top",
             })
         }
     }, [content])

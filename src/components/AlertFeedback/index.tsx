@@ -26,24 +26,8 @@ interface FeedbackTypeContent {
 export type FeedbackType = 'success' | 'error' | 'info' | 'warning';
 
 const AlertFedback: React.FC<AlertFeedback> = (contentProps) => {
-    const [show, setShow] = useState(false);
-
     const toast = useToast();
     const { content } = contentProps
-
-    useEffect(() => {
-        if (content.description) {
-            handleOpen()
-        }
-    }, [contentProps])
-
-    const handleClose = () => {
-        setShow(false)
-    }
-
-    const handleOpen = () => {
-        setShow(true)
-    }
 
     const windowWidth = Dimensions.get('window').width;
 
@@ -78,11 +62,6 @@ const AlertFedback: React.FC<AlertFeedback> = (contentProps) => {
                                 {content.title ? content.title : ''}
                             </Text>
                         </HStack>
-                        <IconButton variant="unstyled" _focus={{
-                            borderWidth: 0
-                        }} icon={<CloseIcon size="3" onPress={handleClose} />} _icon={{
-                            color: "coolGray.600"
-                        }} />
                     </HStack>
                     <Box pl="6" _dark={{
                         _text: {
