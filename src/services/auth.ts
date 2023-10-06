@@ -27,6 +27,8 @@ export const signIn = async ({ email, password }: LoginPost): Promise<AxiosRespo
 }
 
 export const renewToken = async (refresh_token: string): Promise<AxiosResponse<RenewTokenDTO>> => {
-  const response = await api.post(`/auth/${refresh_token}`)
+  const response = await api.post(`/auth/refresh_token`, {
+    refreshToken: refresh_token
+  })
   return response
 }

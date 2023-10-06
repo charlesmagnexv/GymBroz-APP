@@ -4,6 +4,7 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import { getAllEvents } from "../../services/events";
 import { Event } from "../../model/Events";
 import { View, Text } from "native-base";
+import { useFeedback } from "../../context/useFeedback";
 
 const styles = StyleSheet.create({
     mapStyle: {
@@ -14,13 +15,21 @@ const styles = StyleSheet.create({
 const MapEvents: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([] as Event[])
 
+    const { addFeedback } = useFeedback()
+
     useEffect(() => {
+        console.warn("Montou")
         getAllEvents().then((res) => {
             if (res.events) {
                 setEvents(res.events)
             }
         }).catch((err) => {
             console.error(err)
+            addFeedback({
+                title: "Erro",
+                description: `Erro ao exibir eventos`,
+                typeMessage: 'error'
+            })
         })
     }, [])
 
