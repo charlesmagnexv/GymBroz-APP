@@ -1,7 +1,7 @@
 import { View, Text } from "native-base";
 import React from "react";
-import { useAuth } from "../../context/auth";
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import MapEvents from "../../components/MapEvents";
 
 const styles = StyleSheet.create({
   container: {
@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
   },
 });
 const Home: React.FC = () => {
-  
+
   return (
     <View style={styles.container}>
-      <Text>Início</Text>
+      <MapEvents />
     </View>
   )
 }
