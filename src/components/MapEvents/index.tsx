@@ -15,6 +15,7 @@ import { getAllEvents } from "../../services/events";
 import { Event } from "../../model/Events";
 import { useFeedback } from "../../context/useFeedback";
 import gymbrozTheme from "../../theme/gymbrozTheme";
+import moment from "moment";
 
 const { width } = Dimensions.get("window");
 
@@ -96,6 +97,10 @@ const MapEvents: React.FC = () => {
     const { addFeedback } = useFeedback()
 
     let mapAnimation = new Animated.Value(0);
+
+    moment.updateLocale('pt', {
+        months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    });
 
     useEffect(() => {
         getAllEvents().then((res) => {
@@ -183,7 +188,7 @@ const MapEvents: React.FC = () => {
                         />
                         <View style={styles.textContent}>
                             <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
-                            <Text style={styles.cardDescription}>{marker.eventDate}</Text>
+                            <Text style={styles.cardDescription}>{moment(marker.eventDate).format(`DD [de] MMMM [de] YYYY[, ]HH:mm`)}</Text>
                             <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
                             <View style={styles.button}>
                                 <TouchableOpacity
