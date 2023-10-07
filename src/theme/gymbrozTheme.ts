@@ -20,6 +20,11 @@ const gymbrozTheme = {
             light: '#6092FF',
             main: '#004FFF'
         },
+        orange: {
+            light: '#FF7F50',
+            main: '#FF6347',
+            dark: '#FF4500'
+        },
         // Cores padrão do Native Base para uso auxiliar
         muted: {
             50: '#fafafa',
