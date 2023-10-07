@@ -71,7 +71,7 @@ const AuthProvider = ({ children }: any) => {
 
     // Poderia também ser assim: value={{signed: Boolean(user), user: {}, signIn}}
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, loading, signIn, signOut }}>
+        <AuthContext.Provider value={{ signed: !!user || !(AsyncStorage.getItem('@GBAuth:token')), user, loading, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     );

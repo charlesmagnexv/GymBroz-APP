@@ -25,10 +25,10 @@ api.interceptors.response.use(
   async (error) => {
     const refreshToken = await AsyncStorage.getItem('@GBAuth:refreshToken') || '';
     const originalConfig = error.config;
-
+    // console.warn("Erro, api", error.response.data.name)
     if (
       error.response &&
-      (error.response.status === 401 || error.response.status === 400) &&
+      [400, 401].includes(error.response.status) &&
       !originalConfig._retry &&
       originalConfig.url !== "/auth/login"
     ) {
@@ -36,12 +36,14 @@ api.interceptors.response.use(
 
       try {
         const response = await renewToken(refreshToken)
-        const { acessToken, newRefreshToken } = response.data;
+        const { acessToken, newRefreshToken } = await response.data;
 
         api.defaults.headers.Authorization = `Bearer ${acessToken}`;
 
         await AsyncStorage.setItem('@GBAuth:token', acessToken);
         await AsyncStorage.setItem('@GBAuth:refreshToken', newRefreshToken);
+
+        originalConfig.headers.Authorization = `Bearer ${acessToken}`;
 
         return api(originalConfig)
       } catch (error) {

@@ -18,13 +18,14 @@ const MapEvents: React.FC = () => {
     const { addFeedback } = useFeedback()
 
     useEffect(() => {
-        console.warn("Montou")
         getAllEvents().then((res) => {
+            console.warn("Retornou ao then ")
             if (res.events) {
                 setEvents(res.events)
             }
         }).catch((err) => {
-            console.error(err)
+            setEvents([])
+            console.error("Erro evento", err)
             addFeedback({
                 title: "Erro",
                 description: `Erro ao exibir eventos`,
