@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import SignIn from '../pages/SignIn';
+import SignIn from '../screens/SignIn';
 import gymbrozTheme from '../theme/gymbrozTheme';
 
 const AuthStack = createStackNavigator();

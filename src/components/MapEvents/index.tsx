@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: gymbrozTheme.palette.muted[500],
     },
+    marker: {
+        width: 30,
+        height: 30,
+    },
     button: {
         alignItems: 'center',
         marginTop: 5
@@ -118,6 +122,22 @@ const MapEvents: React.FC = () => {
         })
     }, [])
 
+    const interpolations = events.map((marker, index) => {
+        const inputRange = [
+            (index - 1) * CARD_WIDTH,
+            index * CARD_WIDTH,
+            ((index + 1) * CARD_WIDTH),
+        ];
+
+        const scale = mapAnimation.interpolate({
+            inputRange,
+            outputRange: [1, 1.5, 1],
+            extrapolate: "clamp"
+        });
+
+        return { scale };
+    });
+
     const onMarkerPress = (mapEventData: any) => {
         const markerID = mapEventData._targetInst.return.key;
 
@@ -140,13 +160,30 @@ const MapEvents: React.FC = () => {
                     longitudeDelta: 0.0421,
                 }}
             >
-                {events ? events.map((marker, index) => (
-                    <Marker
-                        key={index}
-                        coordinate={{ latitude: marker.geocode[0], longitude: marker.geocode[1] }}
-                        onPress={(e) => onMarkerPress(e)}
-                    />
-                )) : null}
+                {events ? events.map((marker, index) => {
+                    const scaleStyle = {
+                        transform: [
+                            {
+                                scale: interpolations[index].scale,
+                            },
+                        ],
+                    };
+                    return (
+                        <Marker
+                            key={index}
+                            coordinate={{ latitude: marker.geocode[0], longitude: marker.geocode[1] }}
+                            onPress={(e) => onMarkerPress(e)}
+                        >
+                            <Animated.View style={[styles.markerWrap]}>
+                                <Animated.Image
+                                    source={{ uri: marker.eventType.eventTypeIconUrl }}
+                                    style={[styles.marker, scaleStyle]}
+                                    resizeMode="cover"
+                                />
+                            </Animated.View>
+                        </Marker>
+                    )
+                }) : null}
             </MapView>
             <Animated.ScrollView
                 ref={_scrollView}

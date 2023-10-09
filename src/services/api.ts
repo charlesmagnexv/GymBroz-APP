@@ -28,7 +28,7 @@ api.interceptors.response.use(
     // console.warn("Erro, api", error.response.data.name)
     if (
       error.response &&
-      [400, 401].includes(error.response.status) &&
+      error.response.status === 400 &&
       !originalConfig._retry &&
       originalConfig.url !== "/auth/login"
     ) {

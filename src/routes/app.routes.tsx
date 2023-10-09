@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../pages/Home';
-import Events from '../pages/Events';
-import Friends from '../pages/Friends';
-import Account from '../pages/Account';
+import Home from '../screens/Home';
+import Events from '../screens/Events';
+import Friends from '../screens/Friends';
+import Account from '../screens/Account';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import gymbrozTheme from '../theme/gymbrozTheme';
 
