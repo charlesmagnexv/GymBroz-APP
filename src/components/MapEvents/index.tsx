@@ -17,6 +17,9 @@ import { useFeedback } from "../../context/useFeedback";
 import { SvgUri } from "react-native-svg";
 import gymbrozTheme from "../../theme/gymbrozTheme";
 import moment from "moment";
+import { Box, Center, Fab } from "native-base";
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import ModalFilters from "../ModalFilters";
 
 const { width } = Dimensions.get("window");
 
@@ -92,10 +95,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: 50,
         height: 50,
-    },
+    }
 });
 const MapEvents: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([] as Event[])
+    const [modalVisible, setModalVisible] = useState(false);
 
     const _scrollView = useRef<null | ScrollView>(null);
 
@@ -134,8 +138,26 @@ const MapEvents: React.FC = () => {
         _scrollView.current && _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
     }
 
+    const handleCloseModal = () => {
+        setModalVisible(false)
+    }
+
     return (
         <>
+            <Fab
+                renderInPortal={false}
+                bg={gymbrozTheme.palette.orange.light}
+                _pressed={{ bg: gymbrozTheme.palette.orange.dark }}
+                onPress={() => setModalVisible(prevState => !prevState)}
+                shadow={2}
+                placement="top-right"
+                size="sm"
+                top={50}
+                icon={
+                    <Icon name="filter" size={25} color={gymbrozTheme.palette.light[50]} />
+                }
+            />
+            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} />
             <MapView
                 style={styles.mapStyle}
                 initialRegion={{
@@ -156,7 +178,7 @@ const MapEvents: React.FC = () => {
                                     source={{ uri: marker.eventType.eventTypeIconUrl }}
                                     style={[styles.marker, scaleStyle]}
                                     resizeMode="cover"
-                                /> */}
+                            /> */}
                             <SvgUri
                                 width={30}
                                 height={30}
@@ -225,6 +247,7 @@ const MapEvents: React.FC = () => {
                     </View>
                 ))}
             </Animated.ScrollView>
+
         </>
     )
 }
