@@ -29,6 +29,7 @@ api.interceptors.response.use(
     if (
       error.response &&
       error.response.status === 400 &&
+      error.response.data.name === 'TokenExpiredError' &&
       !originalConfig._retry &&
       originalConfig.url !== "/auth/login"
     ) {
@@ -49,6 +50,7 @@ api.interceptors.response.use(
       } catch (error) {
         console.error('Erro ao renovar o token:', error);
         AsyncStorage.clear();
+        return
       }
 
     }

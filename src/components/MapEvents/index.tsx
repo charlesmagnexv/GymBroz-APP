@@ -14,12 +14,12 @@ import MapView, { Marker } from "react-native-maps";
 import { getAllEvents } from "../../services/events";
 import { Event } from "../../model/Events";
 import { useFeedback } from "../../context/useFeedback";
-import { SvgUri } from "react-native-svg";
 import gymbrozTheme from "../../theme/gymbrozTheme";
 import moment from "moment";
-import { Box, Center, Fab } from "native-base";
+import { Fab } from "native-base";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import ModalFilters from "../ModalFilters";
+import { SvgUri } from "react-native-svg";
 
 const { width } = Dimensions.get("window");
 
@@ -127,6 +127,22 @@ const MapEvents: React.FC = () => {
         })
     }, [])
 
+    const interpolations = events.map((marker, index) => {
+        const inputRange = [
+            (index - 1) * CARD_WIDTH,
+            index * CARD_WIDTH,
+            ((index + 1) * CARD_WIDTH),
+        ];
+
+        const scale = mapAnimation.interpolate({
+            inputRange,
+            outputRange: [1, 1.5, 1],
+            extrapolate: "clamp"
+        });
+
+        return { scale };
+    });
+
     const onMarkerPress = (mapEventData: any) => {
         const markerID = mapEventData._targetInst.return.key;
 
@@ -148,7 +164,7 @@ const MapEvents: React.FC = () => {
                 renderInPortal={false}
                 bg={gymbrozTheme.palette.orange.light}
                 _pressed={{ bg: gymbrozTheme.palette.orange.dark }}
-                onPress={() => setModalVisible(prevState => !prevState)}
+                onPress={() => setModalVisible(true)}
                 shadow={2}
                 placement="top-right"
                 size="sm"
@@ -167,26 +183,40 @@ const MapEvents: React.FC = () => {
                     longitudeDelta: 0.0421,
                 }}
             >
-                {events ? events.map((marker, index) => (
-                    <Marker
-                        key={index}
-                        coordinate={{ latitude: marker.geocode[0], longitude: marker.geocode[1] }}
-                        onPress={(e) => onMarkerPress(e)}
-                    >
-                        <Animated.View style={[styles.markerWrap]}>
-                            {/* <Animated.Image
+                {events ? events.map((marker, index) => {
+                    const scaleStyle = {
+                        transform: [
+                            {
+                                scale: interpolations[index].scale,
+                            },
+                        ],
+                    };
+                    return (
+                        <Marker
+                            key={index}
+                            coordinate={{ latitude: marker.geocode[0], longitude: marker.geocode[1] }}
+                            onPress={(e) => onMarkerPress(e)}
+                        >
+                            <Animated.View style={[styles.markerWrap]}>
+                                {/* <Animated.Image
                                     source={{ uri: marker.eventType.eventTypeIconUrl }}
                                     style={[styles.marker, scaleStyle]}
                                     resizeMode="cover"
-                            /> */}
-                            <SvgUri
-                                width={30}
-                                height={30}
-                                uri={marker.eventType.eventTypeIconUrl}
-                            />
-                        </Animated.View>
-                    </Marker>
-                )) : null}
+                                /> */}
+                                {typeof marker.eventType.eventTypeIconUrl === 'string' ? (
+                                    <SvgUri
+                                        width="200"
+                                        height="200"
+                                        source={{ uri: marker.eventType.eventTypeIconUrl }}
+                                    />
+                                ) : (
+                                    <></>
+                                )}
+
+                            </Animated.View>
+                        </Marker>
+                    )
+                }) : null}
             </MapView>
             <Animated.ScrollView
                 ref={_scrollView}
@@ -222,7 +252,7 @@ const MapEvents: React.FC = () => {
                 {events.map((marker, index) => (
                     <View style={styles.card} key={index}>
                         <Image
-                            source={{ uri: `https://picsum.photos/400/301` }}
+                            source={{ uri: `https://picsum.photos/401/300` }}
                             style={styles.cardImage}
                             resizeMode="cover"
                         />
