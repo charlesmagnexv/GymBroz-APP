@@ -7,13 +7,14 @@ import gymbrozTheme from "../../theme/gymbrozTheme";
 
 interface ModalFiltersProps {
     showModal: boolean;
-    closeModal: () => void
+    closeModal: () => void;
+    refreshEvents: (id: string) => void;
 }
 
-const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal }) => {
+const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refreshEvents }) => {
     const [eventsTypes, setEventsTypes] = useState<EventTypeDTO>({} as EventTypeDTO)
     const [loading, setLoading] = useState<Boolean>(true)
-    const [typesSelected, setTypesSelected] = useState<number[]>([])
+    const [typesSelected, setTypesSelected] = useState<number>()
 
     const { addFeedback } = useFeedback()
 
@@ -34,14 +35,13 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal }) =>
     }, [])
 
     const changeFilterList = (id: number) => {
-        console.log('clicou')
-        if (typesSelected.find((element) => element === id)) {
-            console.log("Já existe")
-        } else {
-            setTypesSelected(prevState => [...prevState, id])
-            console.log("Não existe")
-        }
+        setTypesSelected(id)
     }
+
+    const filterEvents = () => {
+        // if(typesSelected) refreshEvents(typesSelected)
+    }
+    
     return (
         <>
             <Modal isOpen={showModal} onClose={closeModal}>
@@ -85,6 +85,7 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal }) =>
                                 bg={gymbrozTheme.palette.secondary.main}
                                 _pressed={{ bg: gymbrozTheme.palette.secondary.dark }}
                                 onPress={() => {
+
                                 }}
                             >
                                 Aplicar

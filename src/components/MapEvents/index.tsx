@@ -127,6 +127,10 @@ const MapEvents: React.FC = () => {
         })
     }, [])
 
+    const refreshEvents = (id: string) => {
+
+    }
+
     const interpolations = events.map((marker, index) => {
         const inputRange = [
             (index - 1) * CARD_WIDTH,
@@ -173,7 +177,7 @@ const MapEvents: React.FC = () => {
                     <Icon name="filter" size={25} color={gymbrozTheme.palette.light[50]} />
                 }
             />
-            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} />
+            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} refreshEvents={refreshEvents} />
             <MapView
                 style={styles.mapStyle}
                 initialRegion={{
@@ -203,15 +207,11 @@ const MapEvents: React.FC = () => {
                                     style={[styles.marker, scaleStyle]}
                                     resizeMode="cover"
                                 /> */}
-                                {typeof marker.eventType.eventTypeIconUrl === 'string' ? (
-                                    <SvgUri
-                                        width="200"
-                                        height="200"
-                                        source={{ uri: marker.eventType.eventTypeIconUrl }}
-                                    />
-                                ) : (
-                                    <></>
-                                )}
+                                <SvgUri
+                                    width="200"
+                                    height="200"
+                                    uri={marker.eventType.eventTypeIconUrl}
+                                />
 
                             </Animated.View>
                         </Marker>
