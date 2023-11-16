@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Center, HStack, Modal, Spinner } from "native-base";
+import { Badge, Button, Center, HStack, Modal, Spinner } from "native-base";
 import React, { useEffect, useState } from "react";
 import { getEventsTypes } from "../../services/events";
 import { EventTypeDTO } from "../../model/Events";
@@ -8,13 +8,13 @@ import gymbrozTheme from "../../theme/gymbrozTheme";
 interface ModalFiltersProps {
     showModal: boolean;
     closeModal: () => void;
-    refreshEvents: (id: string) => void;
+    refreshEventsByType: (id: number) => void;
 }
 
-const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refreshEvents }) => {
+const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refreshEventsByType }) => {
     const [eventsTypes, setEventsTypes] = useState<EventTypeDTO>({} as EventTypeDTO)
     const [loading, setLoading] = useState<Boolean>(true)
-    const [typesSelected, setTypesSelected] = useState<number>()
+    const [typesSelected, setTypesSelected] = useState<number>(0)
 
     const { addFeedback } = useFeedback()
 
@@ -35,13 +35,19 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refr
     }, [])
 
     const changeFilterList = (id: number) => {
-        setTypesSelected(id)
+        if (typesSelected !== id) {
+            setTypesSelected(id)
+        } else {
+            setTypesSelected(0)
+        }
     }
 
     const filterEvents = () => {
-        // if(typesSelected) refreshEvents(typesSelected)
+        if (typesSelected !== 0) {
+
+        }
     }
-    
+
     return (
         <>
             <Modal isOpen={showModal} onClose={closeModal}>
@@ -61,7 +67,7 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refr
                                         <Badge
                                             key={types.id}
                                             variant="subtle"
-                                            colorScheme="coolGray"
+                                            colorScheme={typesSelected === types.id ? "primary" : 'coolGray'}
                                             mt={2}
                                             mb={2}
                                             _text={{ fontSize: 15 }}

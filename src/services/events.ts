@@ -7,6 +7,11 @@ export const getAllEvents = async (): Promise<EventsDTO> => {
     return response.data;
 }
 
+export const getEventsByTypes = async (idEvent: number): Promise<EventsDTO> => {
+    const response = await api.get(`/events/public_events?EventTypeId=${idEvent}`)
+    return response.data;
+}
+
 export const getEventsTypes = async (): Promise<AxiosResponse<EventTypeDTO>> => {
     const response = await api.get(`/event_types/event_types`)
     return response

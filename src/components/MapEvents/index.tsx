@@ -11,7 +11,10 @@ import {
     Image
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { getAllEvents } from "../../services/events";
+import {
+    getAllEvents,
+    getEventsByTypes
+} from "../../services/events";
 import { Event } from "../../model/Events";
 import { useFeedback } from "../../context/useFeedback";
 import gymbrozTheme from "../../theme/gymbrozTheme";
@@ -19,7 +22,6 @@ import moment from "moment";
 import { Fab } from "native-base";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import ModalFilters from "../ModalFilters";
-import { SvgUri } from "react-native-svg";
 
 const { width } = Dimensions.get("window");
 
@@ -118,7 +120,6 @@ const MapEvents: React.FC = () => {
             }
         }).catch((err) => {
             setEvents([])
-            console.error("Erro evento", err)
             addFeedback({
                 title: "Erro",
                 description: `Erro ao exibir eventos`,
@@ -127,7 +128,19 @@ const MapEvents: React.FC = () => {
         })
     }, [])
 
-    const refreshEvents = (id: string) => {
+    const refreshEventsByType = (id: number) => {
+        // getEventsByTypes(id).then(res => {
+        //     if (res.events) {
+        //         setEvents(res.events)
+        //     }
+        // }).catch(err => {
+        //     setEvents([])
+        //     addFeedback({
+        //         title: "Erro",
+        //         description: `Erro ao filtrar eventos`,
+        //         typeMessage: 'error'
+        //     })
+        // })
 
     }
 
@@ -177,7 +190,7 @@ const MapEvents: React.FC = () => {
                     <Icon name="filter" size={25} color={gymbrozTheme.palette.light[50]} />
                 }
             />
-            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} refreshEvents={refreshEvents} />
+            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} refreshEventsByType={refreshEventsByType} />
             <MapView
                 style={styles.mapStyle}
                 initialRegion={{
@@ -202,17 +215,11 @@ const MapEvents: React.FC = () => {
                             onPress={(e) => onMarkerPress(e)}
                         >
                             <Animated.View style={[styles.markerWrap]}>
-                                {/* <Animated.Image
-                                    source={{ uri: marker.eventType.eventTypeIconUrl }}
+                                <Animated.Image
+                                    source={require('../../../assets/img/gym-map.png')}
                                     style={[styles.marker, scaleStyle]}
                                     resizeMode="cover"
-                                /> */}
-                                <SvgUri
-                                    width="200"
-                                    height="200"
-                                    uri={marker.eventType.eventTypeIconUrl}
                                 />
-
                             </Animated.View>
                         </Marker>
                     )
