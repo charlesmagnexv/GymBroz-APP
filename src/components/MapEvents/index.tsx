@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Animated,
     Dimensions,
@@ -113,7 +113,7 @@ const MapEvents: React.FC = () => {
         months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
     });
 
-    useEffect(() => {
+    const getEvents = useCallback(() => {
         getAllEvents().then((res) => {
             if (res.events) {
                 setEvents(res.events)
@@ -128,20 +128,24 @@ const MapEvents: React.FC = () => {
         })
     }, [])
 
-    const refreshEventsByType = (id: number) => {
-        // getEventsByTypes(id).then(res => {
-        //     if (res.events) {
-        //         setEvents(res.events)
-        //     }
-        // }).catch(err => {
-        //     setEvents([])
-        //     addFeedback({
-        //         title: "Erro",
-        //         description: `Erro ao filtrar eventos`,
-        //         typeMessage: 'error'
-        //     })
-        // })
+    useEffect(() => {
+        getEvents()
+    }, [])
 
+    const refreshEventsByType = (id: number) => {
+        getEventsByTypes(id).then(res => {
+            if (res.events) {
+                setEvents(res.events)
+                console.log(res)
+            }
+        }).catch(err => {
+            addFeedback({
+                title: "Erro",
+                description: `Erro ao filtrar eventos`,
+                typeMessage: 'error'
+            })
+            console.log(err)
+        })
     }
 
     const interpolations = events.map((marker, index) => {

@@ -44,7 +44,13 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refr
 
     const filterEvents = () => {
         if (typesSelected !== 0) {
-
+            refreshEventsByType(typesSelected)
+        } else {
+            addFeedback({
+                title: 'Info',
+                description: 'Selecione uma categoria!',
+                typeMessage: 'info'
+            })
         }
     }
 
@@ -90,9 +96,7 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refr
                             <Button
                                 bg={gymbrozTheme.palette.secondary.main}
                                 _pressed={{ bg: gymbrozTheme.palette.secondary.dark }}
-                                onPress={() => {
-
-                                }}
+                                onPress={filterEvents}
                             >
                                 Aplicar
                             </Button>
