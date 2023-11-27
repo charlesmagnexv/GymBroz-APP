@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios"
 import api from "./api"
 import { User } from "../model/User"
 
-export interface RegisterDTO {
+export interface RegisterUserPost {
     firstName: string
     lastName: string
     email: string
@@ -14,12 +14,18 @@ export interface ResponseRegisterDTO {
     message: string
 }
 
-export const postRegisterUser = async ({
+export interface RegisterDTO {
+    acessToken: string
+    refreshToken: string
+    user: User
+  }
+
+export const signUp = async ({
     firstName,
     lastName,
     email,
     password,
-}: RegisterDTO): Promise<AxiosResponse<ResponseRegisterDTO>> => {
+}: RegisterUserPost): Promise<AxiosResponse<ResponseRegisterDTO>> => {
     const response = await api.post(`/auth/signup`, { firstName, lastName, email, password })
     return response;
 }

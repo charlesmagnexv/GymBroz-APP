@@ -9,14 +9,21 @@ import {
     Text,
     HStack,
     ScrollView,
-    Box
+    Box,
+    Heading
 } from 'native-base';
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { 
+    StyleSheet, 
+    TouchableHighlight, 
+    TouchableOpacity
+} from "react-native";
 import { useAuth } from "../../context/auth";
 import gymbrozTheme from '../../theme/gymbrozTheme';
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { FontAwesome, MaterialCommunityIcons, Entypo, MaterialIcons } from '@expo/vector-icons'; 
 import ModalUserImage from '../../components/ModalUserImage';
+
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const styles = StyleSheet.create({
     container: {
@@ -31,12 +38,54 @@ const styles = StyleSheet.create({
         backgroundColor: gymbrozTheme.palette.muted[300],
         borderRadius: 5,
     },
+    backTextWhite: {
+        color: '#FFF',
+    },
+    rowFront: {
+        alignItems: 'center',
+        backgroundColor: '#CCC',
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        justifyContent: 'center',
+        height: 50,
+    },
+    rowBack: {
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
+    },
+    backRightBtn: {
+        alignItems: 'center',
+        bottom: 0,
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 0,
+        width: 70,
+        borderColor: gymbrozTheme.palette.primary.main,
+        borderWidth: 2
+    },
+    backRightBtnLeft: {
+        backgroundColor: gymbrozTheme.palette.secondary.main,
+        right: 70,
+    },
+    backRightBtnRight: {
+        backgroundColor: 'red',
+        right: 0,
+    },
 });
 
 
 const Account: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [listData, setListData] = useState(
+        Array(10)
+            .fill('')
+            .map((_, i) => ({ key: `${i}`, text: `#${i+1}` }))
+    );
     
     const { user, signOut } = useAuth();
 
@@ -47,6 +96,46 @@ const Account: React.FC = () => {
     const handleCloseModal = () => {
         setModalVisible(false)
     }
+
+    const closeRow = (rowMap, rowKey) => {
+        if (rowMap[rowKey]) {
+            rowMap[rowKey].closeRow();
+        }
+    };
+
+    const onRowDidOpen = rowKey => {
+        console.log('This row opened', rowKey);
+    };
+
+    const renderItem = data => (
+        <TouchableHighlight
+            onPress={() => console.log('You touched me')}
+            style={styles.rowFront}
+            underlayColor={'#AAA'}
+        >
+            <View>
+                <Text>Amigo {data.item.text} de {user?.firstName}</Text>
+            </View>
+        </TouchableHighlight>
+    );
+
+    const renderHiddenItem = (data, rowMap) => (
+        <View style={styles.rowBack}>
+            <Text>Left</Text>
+            <TouchableOpacity
+                style={[styles.backRightBtn, styles.backRightBtnLeft]}
+                onPress={() => closeRow(rowMap, data.item.key)}
+            >
+                <Entypo name="chat" size={29} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.backRightBtn, styles.backRightBtnRight]}
+                onPress={() => closeRow(rowMap, data.item.key)}
+            >
+                <MaterialIcons name="next-plan" size={34} color="black" />
+            </TouchableOpacity>
+        </View>
+    );
 
     return (
         
@@ -125,22 +214,17 @@ const Account: React.FC = () => {
                     </VStack>
                     <VStack space={2}>
                         <Text bold fontSize={18} color={gymbrozTheme.palette.primary.main} >Amigos</Text>
-                        <View
-    
-                            bg={gymbrozTheme.palette.muted[300]}
-                            borderColor={gymbrozTheme.palette.primary.main}
-                            borderWidth={2}>
-
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text> 
-                                <Text>Lista de Amigos</Text>  
-
-                        </View>
+                        <SwipeListView
+                            data={listData}
+                            renderItem={renderItem}
+                            renderHiddenItem={renderHiddenItem}
+                            leftOpenValue={75}
+                            rightOpenValue={-140}
+                            previewRowKey={'0'}
+                            previewOpenValue={-40}
+                            previewOpenDelay={3000}
+                            onRowDidOpen={onRowDidOpen}
+                        />
                     </VStack>
                     <Center>
                         {loading ?
@@ -153,7 +237,7 @@ const Account: React.FC = () => {
                                 _pressed={{ bg: gymbrozTheme.palette.red.dark }}
                                 mt={6}
                                 width={200}
-                                leftIcon={<FontAwesome name="sign-out" size={24} color="white" />}
+                                leftIcon={<FontAwesome name="sign-out" size={27} color="white" />}
                             >
                                 Sign-Out
                             </Button>}

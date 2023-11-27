@@ -48,7 +48,7 @@ const SignIn: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-
+    
     const { signIn } = useAuth();
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
     const { addFeedback } = useFeedback()
@@ -172,7 +172,7 @@ const SignIn: React.FC = () => {
                 >
                     Não tem uma conta?
                     <Text
-                        color={gymbrozTheme.palette.primary.main}
+                        color={gymbrozTheme.palette.secondary.dark}
                         underline
                         fontSize="md"
                         onPress={() => setModalVisible(true)}

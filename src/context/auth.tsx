@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as auth from "../services/auth";
+import * as register from "../services/register";
 import AsyncStorage from "@react-native-community/async-storage";
 import api from "../services/api";
 import { LoginPost } from "../services/auth";
+import { RegisterUserPost } from "../services/register";
 import { User } from "../model/User";
 import axios from "axios";
 
@@ -12,6 +14,7 @@ interface AuthContextData {
     user: User | null;
     loading: boolean;
     signIn({ email, password }: LoginPost): Promise<void>;
+    signUp({ firstName, lastName, email, password}: RegisterUserPost): Promise<void>;
     signOut(): void;
 }
 
@@ -69,9 +72,18 @@ const AuthProvider = ({ children }: any) => {
         setUser(null);
     }
 
+    async function signUp({ firstName, lastName, email, password }: RegisterUserPost) {
+        const response = await register.signUp({ firstName, lastName, email, password });
+
+    }
+
+    async function confirmEmail( token: string ) {
+        
+    }
+
     // Poderia também ser assim: value={{signed: Boolean(user), user: {}, signIn}}
     return (
-        <AuthContext.Provider value={{ signed: !!user || !(AsyncStorage.getItem('@GBAuth:token')), user, loading, signIn, signOut }}>
+        <AuthContext.Provider value={{ signed: !!user || !(AsyncStorage.getItem('@GBAuth:token')), user, loading, signIn, signUp, signOut }}>
             {children}
         </AuthContext.Provider>
     );
