@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
 import { useAuth } from "../../context/auth";
 import {
     FormControl,
@@ -18,7 +18,6 @@ import { useForm, Controller } from 'react-hook-form';
 import gymbrozTheme from "../../theme/gymbrozTheme";
 import {useFeedback} from "../../context/useFeedback";
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import ModalUserImage from "../ModalUserImage";
 import ModalConfirmEmail from "../ModalConfirmEmail";
 
 
@@ -70,6 +69,10 @@ const ModalSignUp: React.FC<ModalProps> = ({ showModal, closeModal }) => {
     const onSubmit = (data: FormCreateAccountDTO) => {
         setLoading(true);
         console.log("Ativado")
+        console.log(data.firstName)
+        console.log(data.lastName)
+        console.log(data.email)
+        console.log(data.password)
         signUp({
             firstName: data.firstName,
             lastName: data.lastName,
@@ -104,6 +107,10 @@ const ModalSignUp: React.FC<ModalProps> = ({ showModal, closeModal }) => {
                 isOpen={showModal} 
                 onClose={closeModal}
                 >
+                <KeyboardAvoidingView
+                        behavior={'padding'}
+                        enabled
+                    >
                 <Modal.Content width={400}>
                     <Modal.CloseButton />
                     <Modal.Header>    
@@ -243,7 +250,7 @@ const ModalSignUp: React.FC<ModalProps> = ({ showModal, closeModal }) => {
                                         {errors.password?.message}
                                     </FormControl.ErrorMessage>
                                 </FormControl>
-                                <FormControl isRequired isInvalid={'repassword' in errors} mt={3}>
+                                <FormControl isRequired isInvalid={'repeatPassword' in errors} mt={3}>
                                     <FormControl.Label mt={2}>Confirmar Senha</FormControl.Label>
                                     <Controller
                                         control={control}
@@ -312,10 +319,10 @@ const ModalSignUp: React.FC<ModalProps> = ({ showModal, closeModal }) => {
                             
                     </Modal.Footer>
                 </Modal.Content>
+                </KeyboardAvoidingView>
             </Modal>
 
             <ModalConfirmEmail showModal={modalVisible} closeModal={handleCloseModal} />
-
         </>
     )
 }

@@ -97,46 +97,6 @@ const Account: React.FC = () => {
         setModalVisible(false)
     }
 
-    const closeRow = (rowMap, rowKey) => {
-        if (rowMap[rowKey]) {
-            rowMap[rowKey].closeRow();
-        }
-    };
-
-    const onRowDidOpen = rowKey => {
-        console.log('This row opened', rowKey);
-    };
-
-    const renderItem = data => (
-        <TouchableHighlight
-            onPress={() => console.log('You touched me')}
-            style={styles.rowFront}
-            underlayColor={'#AAA'}
-        >
-            <View>
-                <Text>Amigo {data.item.text} de {user?.firstName}</Text>
-            </View>
-        </TouchableHighlight>
-    );
-
-    const renderHiddenItem = (data, rowMap) => (
-        <View style={styles.rowBack}>
-            <Text>Left</Text>
-            <TouchableOpacity
-                style={[styles.backRightBtn, styles.backRightBtnLeft]}
-                onPress={() => closeRow(rowMap, data.item.key)}
-            >
-                <Entypo name="chat" size={29} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={[styles.backRightBtn, styles.backRightBtnRight]}
-                onPress={() => closeRow(rowMap, data.item.key)}
-            >
-                <MaterialIcons name="next-plan" size={34} color="black" />
-            </TouchableOpacity>
-        </View>
-    );
-
     return (
         
         <ScrollView>
@@ -214,17 +174,7 @@ const Account: React.FC = () => {
                     </VStack>
                     <VStack space={2}>
                         <Text bold fontSize={18} color={gymbrozTheme.palette.primary.main} >Amigos</Text>
-                        <SwipeListView
-                            data={listData}
-                            renderItem={renderItem}
-                            renderHiddenItem={renderHiddenItem}
-                            leftOpenValue={75}
-                            rightOpenValue={-140}
-                            previewRowKey={'0'}
-                            previewOpenValue={-40}
-                            previewOpenDelay={3000}
-                            onRowDidOpen={onRowDidOpen}
-                        />
+    
                     </VStack>
                     <Center>
                         {loading ?

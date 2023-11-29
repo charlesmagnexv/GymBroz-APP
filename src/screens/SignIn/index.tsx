@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 import { useAuth } from "../../context/auth";
 import {
     VStack,
@@ -80,6 +80,10 @@ const SignIn: React.FC = () => {
 
     return (
         <ScrollView>
+            <KeyboardAvoidingView
+                behavior={'padding'}
+                enabled
+            >
             <Center flex={1} justifyContent='flex-start' paddingTop={12}>
                 <Text bold fontSize="2xl" style={styles.title}>GymBroz</Text>
                 <Image source={require('../../../assets/img/img-gymbroz.png')} size={'xl'} alt={"Homem forte"} />
@@ -182,6 +186,7 @@ const SignIn: React.FC = () => {
                 </Text>
                 <ModalSignUp showModal={modalVisible} closeModal={handleCloseModal} />
             </Center>
+            </KeyboardAvoidingView>
         </ScrollView>
     )
 };
