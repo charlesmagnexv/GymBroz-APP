@@ -8,7 +8,7 @@ export const getAllEvents = async (): Promise<EventsDTO> => {
 }
 
 export const getEventsByTypes = async (idEvent: number): Promise<EventsDTO> => {
-    const response = await api.get(`/events/public_events?EventTypeId=${idEvent}`)
+    const response = await api.get(`/events/public_events?eventTypeId=${idEvent}`)
     return response.data;
 }
 

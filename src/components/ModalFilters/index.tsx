@@ -9,9 +9,10 @@ interface ModalFiltersProps {
     showModal: boolean;
     closeModal: () => void;
     refreshEventsByType: (id: number) => void;
+    handleRefreshEvents: () => void;
 }
 
-const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refreshEventsByType }) => {
+const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refreshEventsByType, handleRefreshEvents }) => {
     const [eventsTypes, setEventsTypes] = useState<EventTypeDTO>({} as EventTypeDTO)
     const [loading, setLoading] = useState<Boolean>(true)
     const [typesSelected, setTypesSelected] = useState<number>(0)
@@ -24,7 +25,6 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refr
             setEventsTypes(res.data)
             setLoading(false)
         }).catch(err => {
-            console.log(err)
             setLoading(false)
             addFeedback({
                 title: 'Erro',
@@ -46,11 +46,7 @@ const ModalFilters: React.FC<ModalFiltersProps> = ({ showModal, closeModal, refr
         if (typesSelected !== 0) {
             refreshEventsByType(typesSelected)
         } else {
-            addFeedback({
-                title: 'Info',
-                description: 'Selecione uma categoria!',
-                typeMessage: 'info'
-            })
+            handleRefreshEvents()
         }
     }
 

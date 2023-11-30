@@ -136,7 +136,7 @@ const MapEvents: React.FC = () => {
         getEventsByTypes(id).then(res => {
             if (res.events) {
                 setEvents(res.events)
-                console.log(res)
+                handleCloseModal()
             }
         }).catch(err => {
             addFeedback({
@@ -144,8 +144,11 @@ const MapEvents: React.FC = () => {
                 description: `Erro ao filtrar eventos`,
                 typeMessage: 'error'
             })
-            console.log(err)
         })
+    }
+
+    const handleRefreshEvents = () => {
+        getEvents()
     }
 
     const interpolations = events.map((marker, index) => {
@@ -194,7 +197,7 @@ const MapEvents: React.FC = () => {
                     <Icon name="filter" size={25} color={gymbrozTheme.palette.light[50]} />
                 }
             />
-            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} refreshEventsByType={refreshEventsByType} />
+            <ModalFilters showModal={modalVisible} closeModal={handleCloseModal} refreshEventsByType={refreshEventsByType} handleRefreshEvents={handleRefreshEvents} />
             <MapView
                 style={styles.mapStyle}
                 initialRegion={{
