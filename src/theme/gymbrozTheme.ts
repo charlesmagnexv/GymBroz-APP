@@ -11,6 +11,7 @@ const gymbrozTheme = {
         },
         red: {
             main: '#EF233C',
+            dark: '#6B0000'
         },
         purple: {
             light: '#C13C94',
