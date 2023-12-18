@@ -123,7 +123,7 @@ const Account: React.FC = () => {
                             isDisabled
                         />
                     </VStack>
-                    <VStack space={2}>
+                    {/* <VStack space={2}>
                         <Text bold fontSize={18} color={gymbrozTheme.palette.primary.main} >Amigos</Text>
                         <View
     
@@ -141,7 +141,7 @@ const Account: React.FC = () => {
                                 <Text>Lista de Amigos</Text>  
 
                         </View>
-                    </VStack>
+                    </VStack> */}
                     <Center>
                         {loading ?
                             <View style={styles.spinnerStyle} mt={6} >
